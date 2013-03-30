@@ -1,0 +1,52 @@
+@import url(http://fonts.googleapis.com/css?family=Leckerli+One);
+@import url(http://fonts.googleapis.com/css?family=Gilda+Display);
+
+body {
+  font-family: 'Gilda Display';
+  padding: 1em 0 3em 0;
+  background-color: #fefefe;
+  color: #444;
+}
+
+body > section {
+  width: 80%;
+  min-width: 350px;
+  max-width: 1000px;
+  margin: auto;
+}
+
+h1,
+h2 {
+  font-family: 'Leckerli One';
+  margin: 3% 0 0 0;
+  border-bottom: 1px solid #eee;
+}
+
+h1 {
+  font-size: 3em;
+  text-shadow: 1px 1px #eee;
+  color: #428bdd;
+}
+
+h2 {
+  font-size: 1.5em;
+  text-shadow: 1px 1px #428bdd;
+  box-shadow: none;
+}
+
+a {
+  color: #428bdd;
+  text-decoration: none;
+}
+
+a:active,
+a:target,
+a:hover {
+  color: #b43d3d;
+  text-decoration: underline;
+}
+
+[id^="highlighter"] {
+  padding: 1em 0;
+  border-radius: 8px;
+}

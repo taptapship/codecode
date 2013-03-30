@@ -1,0 +1,247 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>codecode.</title>
+  <link rel="stylesheet" href="css/gh-pages.css">
+  <link rel="stylesheet" href="css/sh.css">
+</head>
+<body>
+  <a href="http://github.com/stephenplusplus/codecode">
+    <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub">
+  </a>
+
+  <section>
+    <h1>codecode.</h1>
+    <p>
+      A lot of times when you're reading a blog, or an article with code blocks, the author makes their point long before the code they're referencing is displayed.
+    </p>
+
+    <pre class="brush: js;">
+      /**
+        codecode allows writers to give their readers a way of having both their
+        words and their sample code on the screen at one time.
+       */
+    </pre>
+
+    <h2>demodemo.</h2>
+    <p>
+      Following are some samples of JavaScript code from a dependency injection library I'm working on, <a href="http://github.com/stephenplusplus/things">things</a>.
+    </p>
+
+    <p>
+      This page is using the great plug-in, <a href="http://alexgorbatchev.com/SyntaxHighlighter">SyntaxHighlighter</a>. Click on any of the code blocks to watch what <a href="http://github.com/stephenplusplus/codecode">codecode</a> does.
+    </p>
+
+    <pre class="brush: js;">
+      /**
+       * When we need a dependency, we start by passing in the module to search in,
+       * and then as much information as we have. If all we know is the name, this
+       * searches through the various types of dependencies, until a match is found.
+       * We can also specify the name AND type of what we want, in which case it is
+       * handed right to us.
+       *
+       * @param  {object}           module The module from where we're searching for
+       *                                   the dependency.
+       * @param  {string}           name   The name of the dependency we need.
+       * @param  {string|undefined} type   The type of dependency we want.
+       * @return {object}           returnDependency The dependency and type matched.
+       */
+      var requestDependency = function(module, name, type) {
+        var returnDependency = {
+          dependencyType: undefined,
+          dependency: undefined
+        };
+
+        if (isUndefined(name) && isUndefined(type))
+          // Nothing provided to us! Abort!
+          return returnDependency;
+
+        if (isDefined(name) && isDefined(type))
+          // We know exactly what we want.
+          returnDependency.dependencyType = type,
+          returnDependency.dependency = module[type][name];
+
+        else
+          // Let's go digging for it.
+          returnDependency.dependency = dependencyTypes.filter(function(depType) {
+            if (isDefined(module[depType][name])) {
+              returnDependency.dependencyType = depType;
+              return module[depType][name];
+            }
+          })[0];
+
+        if (!returnDependency.dependency || !returnDependency.dependencyType)
+          throw new Error(name + ' doesn\'t appear to be a thing.');
+
+        return returnDependency;
+      };
+    </pre>
+
+    <p>
+      Did you click a code block yet?
+    </p>
+
+    <p>
+      Try it!
+    </p>
+
+    <pre class="brush: js;">
+      /**
+       * We will add things to the global object.
+       *
+       * @return {function}
+       */
+      root.things = (function() {
+        /**
+         * The public API to create a new thing module and register other things.
+         *
+         * @param  {string} moduleName The name of the thing module being requested.
+         * @return {object}            The api to interact with the thing module.
+         */
+        var things = function(moduleName) {
+          if (!isString(moduleName) && !isNumber(moduleName))
+            throw new Error('Hey! Give your things a name!');
+
+          // `thingApi` is what will be returned to the user when a thing module is
+          // created / asked for.
+          var thingApi = allOfTheThingsApis[moduleName];
+
+          // If `thingApi` is defined, that means the user has already registered
+          // a module by this name, so we will return that module to them. This is
+          // what allows for no variables to be created. Modules can come from
+          // `things` directly, exposing all necessary APIs.
+          if (isDefined(thingApi))
+            return thingApi;
+
+          // If this is a new module, we'll register it with the private object,
+          // `allOfTheThings`. It's also referenced as `module` locally, as we will
+          // be passing this module directly to all dependency register and
+          // invocation functions.
+          var module = allOfTheThings[moduleName] = {
+            route: {},
+            service: {},
+            thing: {},
+            boot: {}
+          };
+
+          // Prepare the invoking filter to be stored on the module.
+          prepareInvokingFilter(module);
+
+          // The default `root` dependency, which is just a refence to `window`.
+          registerDependency(module, 'thing', 'root', window);
+
+          // Another default `goTo` function, which just returns the `goTo`
+          // function defined above.
+          registerDependency(module, 'service', 'goTo', function() {
+            return goTo;
+          });
+
+          // The default `$` dependency, the jQuery-esque API for the DOM.
+          registerDependency(module, 'service', '$', function() {
+            return $$;
+          });
+
+          // For routes, we provide a special `$el` to reference the route's element.
+          registerDependency(module, "thing", "$el", $$);
+
+          /**
+           * Returns a function bound to the correct dependency type.
+           *
+           * @param  {string} type What kind of dependency are we going to eventually
+           *                       register?
+           * @return {function}    The returned function will call registerDependency.
+           */
+          var createDependency = function(type) {
+            /**
+             * The function that is returned which will call registerDependency.
+             *
+             * @param  {string} name  The name of the thing being registered.
+             * @param  {*}      value What is the value of this thing?
+             * @return {undefined}
+             */
+            return function(name, value) {
+              registerDependency(module, type, name, value);
+
+              return allOfTheThingsApis[moduleName];
+            }
+          };
+
+          /**
+           * What is used to "go to" a route.
+           *
+           * @param  {string} route  Name of the route we're invoking.
+           * @return {object} module The object used for interacting with the module.
+           */
+          var goTo = function(route) {
+            invokeRoute(module, route);
+
+            return allOfTheThingsApis[moduleName];
+          };
+
+          /**
+           * Registers functions that intend to be invoked after the DOM is ready.
+           *
+           * @param  {function}         value  The function that will execute.
+           * @return {object|undefined} module The object used for interacting with the
+           *                                   module.
+           */
+          var boots = function(value) {
+            if (!isFunction(value))
+              return;
+
+            // Create a random name for this boot function.
+            var bootName = value.toString().substr(10, 30).replace(/[^\w]|\s/g, '');
+
+            registerDependency(module, 'boot', bootName, value);
+
+            if (isDOMLoaded)
+              // If the DOM has already loaded, we'll invoke this immediately.
+              invokeDependency(module, bootName, "boot");
+
+            return allOfTheThingsApis[moduleName];
+          };
+
+          /**
+           * When the DOM has loaded, we can call our `module.boots()` functions
+           * one-by-one.
+           *
+           * @return {undefined}
+           */
+          var isDOMLoaded = document.readyState === "complete";
+          root.onload = function() {
+            isDOMLoaded = true;
+
+            for (var bootName in module.boot)
+              if (module.boot.hasOwnProperty(bootName) && bootName.charAt(0) !== "_")
+                invokeDependency(module, bootName, "boot");
+           };
+
+          // We return the public API for registering things, as well as store a
+          // reference to it in `allOfTheThingsApis`.
+          return allOfTheThingsApis[moduleName] = {
+            route: createDependency("route"),
+            service: createDependency("service"),
+            thing: createDependency("thing"),
+            goTo: goTo,
+            boots: boots
+          };
+        };
+
+        return things;
+      })();
+    </pre>
+
+    <h2>what do you thinkthink?</h2>
+    <p>
+      <a href="http://github.com/stephenplusplus/codecode">Go check it out!</a>
+    </p>
+  </section>
+
+  <script src="js/jquery.js"></script>
+  <script src="js/shCore.js"></script>
+  <script src="js/shBrushJScript.js"></script>
+  <script src="js/codecode.js"></script>
+  <script>SyntaxHighlighter.all();</script>
+</body>
+</html>
