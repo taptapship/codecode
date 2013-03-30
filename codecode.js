@@ -84,6 +84,8 @@
     .append('<style>'+styles+'</style>')
     .append(el.codecodecode);
 
+  var codeposition;
+
   var gobacktothecode = function(e) {
     e.preventDefault();
 
@@ -95,6 +97,8 @@
   var closecodecode = function(e, callback) {
     if ($.type(e) === 'object')
       e.preventDefault();
+
+    el.body.off('keyup');
 
     el.codecodecode
       .animate({ bottom: '-300px' }, 300, callback || $.noop);
@@ -108,18 +112,14 @@
 
     el.body.on('keyup', function(e) {
       if (e.which === 27)
-        closecodecode(null, function() {
-          el.body.off('keyup');
-        });
+        closecodecode();
     });
-
-    $('.acodecodeactive').removeClass('acodecodeactive');
 
     codeblock
       .addClass('acodecodeactive');
   };
 
-  var init = function(selector) {
+  var bindcodecodeclick = function(selector) {
     el.body.on('click', selector, function() {
       var codeblock = $(this);
 
@@ -138,8 +138,10 @@
         el.codecode
           .empty()
           .append(clone)
-          .css('margin', '0 !important')
-          .height('auto');
+          .css({
+            margin: '0 !important',
+            height: 'auto'
+          });
 
         el.codecodecode
           .height(el.codecode.height() > 300 ? 300 : el.codecode.height());
@@ -152,17 +154,16 @@
     });
   };
 
-  el.gobacktothecode.on('click', gobacktothecode);
+  el.gobacktothecode
+    .on('click', gobacktothecode);
 
-  el.closecodecode.on('click', closecodecode);
-
-  var allofthecodes
-    , codeposition;
+  el.closecodecode
+    .on('click', closecodecode);
 
   $.fn.codecode = function() {
-    init(this.selector);
+    bindcodecodeclick(this.selector);
 
-    return (allofthecodes = this.addClass('acodecode'));
+    return this.addClass('acodecode');
   };
 
   if (typeof SyntaxHighlighter !== 'undefined') {
