@@ -2,7 +2,7 @@
 ----
 
 ### What is `codecode`?
-As a reader of many programming blogs and tutorials, authors will commonly share code samples. I often have the problem of either looking ahead to the code without reading the text, or I just want to refer back to the code as I'm digesting the author's point. My laptop monitor is only so tall, so I want to be able to see both at the same time.
+If you spend any time reading a programmer's blog, there's a good chance you're going to be reading some code samples. I often have the problem of either looking ahead to the code without reading the text, or I just want to refer back to the code as I'm digesting the author's point. Our monitors are only so tall; I just want to be able to see both at the same time, without losing my place in either.
 
 That's what `codecode` helps with. It's a jQuery plug-in which will split your page in two, allowing your readers to see your code as they read your article.
 
@@ -28,3 +28,6 @@ All you need to do is:
 3. Call `$('.codeblock').codecode();`
 
 You're done!
+
+### A demo!
+Take a look at any of the code blocks [here](http://stephenplusplus.github.com/essential-js-design-patterns/). I've forked Addy Osmani's great book, "Learning JavaScript Design Patterns," and added `codecode` to show how it can help.
