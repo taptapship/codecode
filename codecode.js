@@ -48,7 +48,6 @@
   +  'border-radius: 0 !important;'
   +  'position: relative !important;'
   +  'width: 100% !important;'
-  +  'height: 100%; !important;'
   +  'margin: 0 !important;'
   +  'overflow: auto !important;'
   +  'cursor: default !important;'
@@ -132,16 +131,13 @@
       var clone =
         codeblock
           .clone()
-            .addClass('codecode');
+          .addClass('codecode');
 
       closecodecode(null, function() {
         el.codecode
           .empty()
-          .append(clone)
-          .css({
-            margin: '0 !important',
-            height: 'auto'
-          });
+          .append(clone.css('margin', '0 !important'))
+          .height('auto');
 
         el.codecodecode
           .height(el.codecode.height() > 300 ? 300 : el.codecode.height());
