@@ -45,6 +45,7 @@
   +'}'
 
   +'.codecode {'
+  +  'border-radius: 0 !important;'
   +  'position: relative !important;'
   +  'width: 100% !important;'
   +  'height: 100%; !important;'
@@ -123,7 +124,7 @@
     el.body.on('click', selector, function() {
       var codeblock = $(this);
 
-      if (codeblock.hasClass('acodecodeactive'))
+      if (codeblock.hasClass('acodecodeactive') || codeblock.hasClass('codecode'))
         return;
 
       codeposition = $(this).position().top;
@@ -131,7 +132,6 @@
       var clone =
         codeblock
           .clone()
-            .off('click')
             .addClass('codecode');
 
       closecodecode(null, function() {
