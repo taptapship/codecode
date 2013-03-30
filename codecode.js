@@ -16,6 +16,7 @@
   +  'width: 96%;'
   +  'height: 0;'
   +  'max-height: 35%;'
+  +  'text-align: left;'
   +'}'
 
   +'.codecodecode > div {'
@@ -53,7 +54,8 @@
   +  'cursor: default;'
   +'}'
 
-  +'.codecode [id^=highlighter] .bar.show {'
+  +'div.codecode [id^=highlighter] div.bar.show,'
+  +'div.codecode [id^=highlighter] div.toolbar {'
   +  'display: none !important;'
   +'}';
 
@@ -153,7 +155,7 @@
     return this.each(init);
   };
 
-  if ($.type(SyntaxHighlighter) !== 'undefined')
+  if (typeof SyntaxHighlighter !== 'undefined')
     $('.syntaxhighlighter').codecode();
 
 })(jQuery, document);
