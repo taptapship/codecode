@@ -30,4 +30,4 @@ All you need to do is:
 You're done!
 
 ### A demo!
-Take a look at any of the code blocks [here](http://stephenplusplus.github.com/essential-js-design-patterns/). I've forked Addy Osmani's great book, "Learning JavaScript Design Patterns," and added `codecode` to show how it can help.
+I've set up a [demo page](http://stephenplusplus.github.com/codecode) to show how `codecode` can help.
