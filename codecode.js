@@ -1,4 +1,4 @@
-(function($, doc) {
+(function($, win, doc) {
   var styles
   ='.acodecode {'
   +  'cursor: pointer;'
@@ -48,10 +48,9 @@
   +  'position: relative !important;'
   +  'width: 100% !important;'
   +  'height: 100%; !important;'
-  +  'padding: 0 !important;'
   +  'margin: 0 !important;'
   +  'overflow: auto !important;'
-  +  'cursor: default;'
+  +  'cursor: default !important;'
   +'}'
 
   +'div.codecode [id^=highlighter] div.bar.show,'
@@ -60,6 +59,9 @@
   +'}';
 
   var el = {};
+  el.body
+  = $(doc.body);
+
   el.codecodecode
   = $('<div class="codecodecode">'
      +  '<div class="codecodecontrols">'
@@ -78,7 +80,7 @@
   el.codecode
   = el.codecodecode.find('.codecode');
 
-  $(doc.body)
+  el.body
     .append('<style>'+styles+'</style>')
     .append(el.codecodecode);
 
@@ -87,7 +89,7 @@
 
     closecodecode();
 
-    $(doc.body).animate({ scrollTop: codeposition - 20 }, 2000);
+    el.body.animate({ scrollTop: codeposition - 20 }, 2000);
   };
 
   var closecodecode = function(e, callback) {
@@ -104,16 +106,23 @@
     el.codecodecode
       .animate({ bottom: 0 }, 500);
 
+    el.body.on('keyup', function(e) {
+      if (e.which === 27)
+        closecodecode(null, function() {
+          el.body.off('keyup');
+        });
+    });
+
     $('.acodecodeactive').removeClass('acodecodeactive');
 
     codeblock
       .addClass('acodecodeactive');
   };
 
-  var init = function() {
-    var codeblock = $(this);
+  var init = function(selector) {
+    el.body.on('click', selector, function() {
+      var codeblock = $(this);
 
-    codeblock.click(function() {
       if (codeblock.hasClass('acodecodeactive'))
         return;
 
@@ -122,7 +131,7 @@
       var clone =
         codeblock
           .clone()
-            .unbind('click')
+            .off('click')
             .addClass('codecode');
 
       closecodecode(null, function() {
@@ -143,19 +152,37 @@
     });
   };
 
-  el.gobacktothecode
-    .click(gobacktothecode);
+  el.gobacktothecode.on('click', gobacktothecode);
 
-  el.closecodecode
-    .click(closecodecode);
+  el.closecodecode.on('click', closecodecode);
 
-  var allofthecodes, codeposition;
+  var allofthecodes
+    , codeposition;
+
   $.fn.codecode = function() {
-    allofthecodes = this.addClass('acodecode');
-    return this.each(init);
+    init(this.selector);
+
+    return (allofthecodes = this.addClass('acodecode'));
   };
 
-  if (typeof SyntaxHighlighter !== 'undefined')
-    $('.syntaxhighlighter').codecode();
+  if (typeof SyntaxHighlighter !== 'undefined') {
+    var tried = 0
+      , syntaxactivated = false
+      , callsyntax = SyntaxHighlighter.all;
 
-})(jQuery, document);
+    SyntaxHighlighter.all = function() {
+      callsyntax();
+
+      checkforsyntaxels = win.setInterval(function() {
+        tried++;
+        if ($('.syntaxhighlighter').length > 0)
+          $('.syntaxhighlighter').codecode(),
+          syntaxactivated = true;
+
+        if (syntaxactivated || tried > 50)
+          win.clearInterval(checkforsyntaxels);
+      }, 50);
+    };
+  }
+
+})(jQuery, window, document);
