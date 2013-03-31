@@ -162,24 +162,27 @@
     return this.addClass('acodecode');
   };
 
-  if (typeof SyntaxHighlighter !== 'undefined') {
-    var tried = 0
-      , syntaxactivated = false
-      , callsyntax = SyntaxHighlighter.all;
+  if (typeof SyntaxHighlighter !== 'undefined')
+    SyntaxHighlighter.all = (function() {
+      var callsyntaxhighlighter = SyntaxHighlighter.all
+        , syntaxactivated = false
+        , checkforsyntaxels
+        , tried = 0;
 
-    SyntaxHighlighter.all = function() {
-      callsyntax();
-
-      checkforsyntaxels = win.setInterval(function() {
-        tried++;
+      var hassyntaxbeenhighlighted = function() {
         if ($('.syntaxhighlighter').length > 0)
           $('.syntaxhighlighter').codecode(),
           syntaxactivated = true;
 
-        if (syntaxactivated || tried > 50)
+        if (syntaxactivated || tried++ > 50)
           win.clearInterval(checkforsyntaxels);
-      }, 50);
-    };
-  }
+      };
+
+      return function() {
+        callsyntaxhighlighter();
+
+        checkforsyntaxels = win.setInterval(hassyntaxbeenhighlighted, 50);
+      }
+    })();
 
 })(jQuery, window, document);
