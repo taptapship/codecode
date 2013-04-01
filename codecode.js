@@ -1,3 +1,9 @@
+/*!
+ * codecode.
+ * v0.0.1 @stephenplusplus 3/31/13
+ * github.com/stephenplusplus/codecode
+ */
+
 (function($, win, doc) {
   var styles
   ='.acodecode {'
@@ -15,7 +21,7 @@
   +  'bottom: -30px;'
   +  'width: 96%;'
   +  'height: 0;'
-  +  'max-height: 35%;'
+  +  'max-height: 270px;'
   +  'text-align: left;'
   +'}'
 
@@ -140,7 +146,7 @@
           .height('auto');
 
         el.codecodecode
-          .height(el.codecode.height() > 300 ? 300 : el.codecode.height());
+          .height(el.codecode.height() >= 270 ? 270 : el.codecode.height());
 
         el.codecode
           .height('100%');
