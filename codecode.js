@@ -1,15 +1,3 @@
-/*!
- * codecode.
- * v0.0.2 @stephenplusplus 4/1/13
- * github.com/stephenplusplus/codecode
- */
-
-/*!
- * codecode.
- * v0.0.1 @stephenplusplus 3/31/13
- * github.com/stephenplusplus/codecode
- */
-
 (function($, win, doc) {
   var styles
   ='.acodecode {'

@@ -16,7 +16,7 @@ module.exports = function(grunt) {
       },
       build: {
         src: ['codecode.js'],
-        dest: 'codecode.js'
+        dest: 'codecode.min.js'
       }
     },
 
@@ -28,7 +28,7 @@ module.exports = function(grunt) {
         sourceMap: 'codecode.js.map'
       },
       build: {
-        src: 'codecode.js',
+        src: 'codecode.min.js',
         dest: 'codecode.min.js'
       }
     }
