@@ -1,0 +1,14 @@
+{
+  "name": "codecode",
+  "version": "0.0.1",
+  "description": "codecode allows your readers to dock your syntax-highlighted code blocks to the bottom of the page, allowing them to refer back without losing their place in your article.",
+  "main": "./codecode.js",
+  "gitHead": "9a415f0a1df71e0eb145a7c459e8af15854f3be6"
+  "dependencies": {
+    "jquery": ">= 1.8"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/stephenplusplus/codecode.git"
+  }
+}
