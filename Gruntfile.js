@@ -12,11 +12,11 @@ module.exports = function(grunt) {
           +" * codecode.\n"
           +" * v<%= pkg.version %> @stephenplusplus <%= grunt.template.today('m/d/yy') %>\n"
           +" * github.com/stephenplusplus/codecode\n"
-          +" */\n\n"
+          +" */\n"
       },
       build: {
-        src: ['codecode.js'],
-        dest: 'codecode.min.js'
+        src: ['src/codecode.js'],
+        dest: 'dist/codecode.js'
       }
     },
 
@@ -25,11 +25,11 @@ module.exports = function(grunt) {
         mangle: true,
         compress: true,
         preserveComments: 'some',
-        sourceMap: 'codecode.js.map'
+        sourceMap: 'dist/codecode.js.map'
       },
       build: {
-        src: 'codecode.min.js',
-        dest: 'codecode.min.js'
+        src: ['dist/codecode.js'],
+        dest: 'dist/codecode.min.js'
       }
     }
   });
