@@ -1,3 +1,9 @@
+/*!
+ * codecode.
+ * v0.0.1 @stephenplusplus 3/31/13
+ * github.com/stephenplusplus/codecode
+ */
+
 (function($, win, doc) {
   var styles
   ='.acodecode {'
@@ -15,7 +21,7 @@
   +  'bottom: -30px;'
   +  'width: 96%;'
   +  'height: 0;'
-  +  'max-height: 35%;'
+  +  'max-height: 270px;'
   +  'text-align: left;'
   +'}'
 
@@ -48,7 +54,6 @@
   +  'border-radius: 0 !important;'
   +  'position: relative !important;'
   +  'width: 100% !important;'
-  +  'height: 100%; !important;'
   +  'margin: 0 !important;'
   +  'overflow: auto !important;'
   +  'cursor: default !important;'
@@ -132,19 +137,16 @@
       var clone =
         codeblock
           .clone()
-            .addClass('codecode');
+          .addClass('codecode');
 
       closecodecode(null, function() {
         el.codecode
           .empty()
-          .append(clone)
-          .css({
-            margin: '0 !important',
-            height: 'auto'
-          });
+          .append(clone.css('margin', '0 !important'))
+          .height('auto');
 
         el.codecodecode
-          .height(el.codecode.height() > 300 ? 300 : el.codecode.height());
+          .height(el.codecode.height() >= 270 ? 270 : el.codecode.height());
 
         el.codecode
           .height('100%');
@@ -166,24 +168,27 @@
     return this.addClass('acodecode');
   };
 
-  if (typeof SyntaxHighlighter !== 'undefined') {
-    var tried = 0
-      , syntaxactivated = false
-      , callsyntax = SyntaxHighlighter.all;
+  if (typeof SyntaxHighlighter !== 'undefined')
+    SyntaxHighlighter.all = (function() {
+      var callsyntaxhighlighter = SyntaxHighlighter.all
+        , syntaxactivated = false
+        , checkforsyntaxels
+        , tried = 0;
 
-    SyntaxHighlighter.all = function() {
-      callsyntax();
-
-      checkforsyntaxels = win.setInterval(function() {
-        tried++;
+      var hassyntaxbeenhighlighted = function() {
         if ($('.syntaxhighlighter').length > 0)
           $('.syntaxhighlighter').codecode(),
           syntaxactivated = true;
 
-        if (syntaxactivated || tried > 50)
+        if (syntaxactivated || tried++ > 50)
           win.clearInterval(checkforsyntaxels);
-      }, 50);
-    };
-  }
+      };
+
+      return function() {
+        callsyntaxhighlighter();
+
+        checkforsyntaxels = win.setInterval(hassyntaxbeenhighlighted, 50);
+      }
+    })();
 
 })(jQuery, window, document);
