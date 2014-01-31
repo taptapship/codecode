@@ -6,7 +6,7 @@
   "homepage": "http://stephenplusplus.github.io/codecode",
   "main": [
     "./dist/codecode.js",
-    "./dist/codecode.css",
+    "./dist/codecode.css"
   ],
   "repository": {
     "type": "git",
