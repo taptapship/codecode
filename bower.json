@@ -1,6 +1,6 @@
 {
   "name": "codecode",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "Stephen Sawchuk",
   "description": "codecode allows your readers to dock your syntax-highlighted code blocks to the bottom of the page, allowing them to refer back without losing their place in your article.",
   "homepage": "http://stephenplusplus.github.io/codecode",
